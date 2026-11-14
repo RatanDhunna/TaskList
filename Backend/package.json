@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/RatanDhunna/TaskList#readme",
+  "bugs": {
+    "url": "https://github.com/RatanDhunna/TaskList/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RatanDhunna/TaskList.git"
+  },
+  "license": "ISC",
+  "author": "Ratan Dhunna",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
