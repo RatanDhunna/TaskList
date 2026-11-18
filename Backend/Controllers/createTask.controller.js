@@ -2,7 +2,7 @@ import Task from "../Schema/TaskSchema.js";
 
 export default async function CreateTask(req, res) {
   const { title, startTime, endTime, taskDate, description } = req.body;
-
+   console.log(`Create Task called with ${title, startTime, endTime, taskDate, description }`)
   try {
     const task = await Task.create({
       title,

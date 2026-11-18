@@ -2,11 +2,33 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Weeklycalender from "../components/weeklycalender";
 import "./Home.css";
+import Task from "../components/task";
+import { useEffect } from "react";
+import api from "../axiosInstance";
 
 function Home() {
   const [searchValue, setSearchValue] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [weekCounter, setWeekCounter] = useState(0);
+  const [todayTask, setTodayTask] = useState([]);
+  const [weekcount, setWeekCount] = useState(0);
+
+  useEffect(() => {
+    async function getTasks() {
+      console.log(`/getTas`, { params: { data: selectedDate.toISOString() } });
+      const response = await api.get(`/getTask`, {
+        params: { date: selectedDate.toISOString() },
+      });
+      console.log(response);
+      const { data } = response;
+      if (data.status === true) {
+        setTodayTask([...data.data.tasks]);
+        setWeekCount([data.data.completedCount, data.data.uncompletedcount]);
+      }
+    }
+    getTasks();
+  }, [selectedDate, todayTask]);
+
   function searchInput(e) {
     setSearchValue(e.target.value);
   }
@@ -42,7 +64,8 @@ function Home() {
             <span>Task Complete</span>
           </div>
           <p className="dashboard__stat-count">
-            50 <span>This Week</span>
+            {weekcount[0]}
+            <span>This Week</span>
           </p>
         </article>
         <article className="dashboard__stat dashboard__stat--pending">
@@ -56,7 +79,7 @@ function Home() {
             <span>Task Pending</span>
           </div>
           <p className="dashboard__stat-count">
-            08 <span>This Week</span>
+            {weekcount[1]} <span>This Week</span>
           </p>
         </article>
       </section>
@@ -78,46 +101,13 @@ function Home() {
             View All
           </button>
         </div>
-        <ul className="dashboard__task-list">
-          <li className="dashboard__task">
-            <span className="dashboard__task-check" aria-hidden="true" />
-            <span className="dashboard__task-name">Finishing Wireframe</span>
-            <span className="dashboard__task-actions" aria-hidden="true">
-              <span className="dashboard__trash-icon" />
-              <span className="dashboard__edit-icon" />
-            </span>
-          </li>
-          <li className="dashboard__task">
-            <span className="dashboard__task-check" aria-hidden="true" />
-            <span className="dashboard__task-name">Meeting with team</span>
-            <span className="dashboard__task-actions" aria-hidden="true">
-              <span className="dashboard__trash-icon" />
-              <span className="dashboard__edit-icon" />
-            </span>
-          </li>
-          <li className="dashboard__task dashboard__task--done">
-            <span className="dashboard__task-check" aria-hidden="true">
-              ✓
-            </span>
-            <span className="dashboard__task-name">Buy cat food</span>
-            <span className="dashboard__task-actions" aria-hidden="true">
-              <span className="dashboard__trash-icon" />
-              <span className="dashboard__edit-icon" />
-            </span>
-          </li>
-          <li className="dashboard__task dashboard__task--done">
-            <span className="dashboard__task-check" aria-hidden="true">
-              ✓
-            </span>
-            <span className="dashboard__task-name">
-              Finishing daily commission
-            </span>
-            <span className="dashboard__task-actions" aria-hidden="true">
-              <span className="dashboard__trash-icon" />
-              <span className="dashboard__edit-icon" />
-            </span>
-          </li>
-        </ul>
+        {todayTask.length === 0 ? (
+          <div>No tasks scheduled for today</div>
+        ) : (
+          todayTask.map((ele, ind) => (
+            <Task key={ele._id} task={ele} setTodayTask={setTodayTask} />
+          ))
+        )}
       </section>
       <button className="dashboard__add" type="button" aria-label="Add task">
         <span aria-hidden="true">+</span>

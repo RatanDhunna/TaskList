@@ -2,6 +2,7 @@ import Task from "../Schema/TaskSchema.js";
 
 export default async function deleteTask(req, res) {
   const { id } = req.params;
+  console.log(`Delete Task called with ${id}`)
   try {
     const deleted = await Task.deleteOne({ _id: id });
     return res
