@@ -1,0 +1,177 @@
+.modal-overlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgb(17 21 43 / 48%);
+  backdrop-filter: blur(3px);
+  animation: modal-fade-in 180ms ease-out both;
+}
+
+.modal-content {
+  width: min(100%, 29rem);
+  max-height: min(42rem, calc(100dvh - 2.5rem));
+  overflow-y: auto;
+  padding: 1.5rem;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 1rem;
+  background: #fff;
+  color: #11152b;
+  box-shadow: 0 1.5rem 4rem rgb(17 21 43 / 24%);
+  animation: modal-pop-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.modal-header button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #f2f3f8;
+  color: #636a7c;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1rem;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.modal-header button:hover {
+  background: #e8ebff;
+  color: #405ff0;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.modal-content label {
+  margin-top: 0.55rem;
+  color: #444a5c;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #e1e4ed;
+  border-radius: 0.55rem;
+  outline: none;
+  background: #fff;
+  color: #20253a;
+  font: inherit;
+  font-size: 0.85rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.modal-content textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: #9a9eaa;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+  border-color: #8396ff;
+  box-shadow: 0 0 0 3px rgb(73 101 244 / 12%);
+}
+
+.time-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.create-btn {
+  min-height: 2.9rem;
+  margin-top: 0.8rem;
+  border: 0;
+  border-radius: 0.6rem;
+  background: #4965f4;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 650;
+  box-shadow: 0 0.4rem 1rem rgb(73 101 244 / 22%);
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.create-btn:hover {
+  transform: translateY(-1px);
+  background: #3c57df;
+}
+
+.modal-header button:focus-visible,
+.create-btn:focus-visible {
+  outline: 3px solid rgb(73 101 244 / 35%);
+  outline-offset: 3px;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-pop-in {
+  from {
+    transform: translateY(0.75rem) scale(0.97);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 30rem) {
+  .modal-overlay {
+    padding: 0.75rem;
+  }
+
+  .modal-content {
+    max-height: calc(100dvh - 1.5rem);
+    padding: 1.2rem;
+    border-radius: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay,
+  .modal-content {
+    animation-duration: 1ms;
+  }
+}
