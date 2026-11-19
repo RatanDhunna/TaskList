@@ -26,6 +26,18 @@ body {
   position: relative;
 }
 
+.dashboard__search-submit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2.5rem;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
 .dashboard__search-input {
   width: 100%;
   height: 2.5rem;

@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import Input from "../components/Input";
 import Weeklycalender from "../components/weeklycalender";
 import "./Home.css";
@@ -8,6 +9,7 @@ import AddTaskModal from "../components/createForm";
 import api from "../axiosInstance";
 
 function Home() {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [weekCounter, setWeekCounter] = useState(0);
@@ -264,23 +266,33 @@ function Home() {
     setSearchValue(e.target.value);
   }
 
-  // Filter tasks using search input.
-  const filteredTasks = todayTask.filter((task) =>
-    task.title.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    const searchTerm = searchValue.trim();
+
+    if (searchTerm) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+    }
+  }
 
   return (
     <main className="dashboard">
-      <div className="dashboard__search">
+      <form className="dashboard__search" onSubmit={handleSearchSubmit}>
         <Input
           classprop="dashboard__search-input"
           onChange={searchInput}
-          placeholder="Search for a task"
+          placeholder="Search all tasks"
           currValue={searchValue}
         />
 
-        <span className="dashboard__search-icon" aria-hidden="true" />
-      </div>
+        <button
+          className="dashboard__search-submit"
+          type="submit"
+          aria-label="Search tasks"
+        >
+          <span className="dashboard__search-icon" aria-hidden="true" />
+        </button>
+      </form>
 
       <div className="dashboard__calendar">
         <Weeklycalender
@@ -352,10 +364,10 @@ function Home() {
           </button>
         </div>
 
-        {filteredTasks.length === 0 ? (
+        {todayTask.length === 0 ? (
           <div>No tasks scheduled for this date</div>
         ) : (
-          filteredTasks.map((ele) => (
+          todayTask.map((ele) => (
             <Task
               key={ele._id}
               task={ele}

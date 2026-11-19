@@ -7,6 +7,7 @@ import { fileURLToPath, pathToFileURL } from "url";
 import cors from "cors";
 import CreateTask from "./Controllers/createTask.controller.js";
 import GetTasks from "./Controllers/getTasks.controller.js";
+import SearchTasks from "./Controllers/searchTasks.controller.js";
 import editTask from "./Controllers/editTask.controller.js";
 import deleteTask from "./Controllers/deleteTask.controller.js";
 const app = express();
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 
 app.post("/createTask", CreateTask);
 app.get("/getTask", GetTasks);
+app.get("/searchTask", SearchTasks);
 app.patch("/updateTask/:id", editTask);
 app.delete("/deletetask/:id", deleteTask);
 
