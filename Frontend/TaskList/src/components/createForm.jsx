@@ -1,11 +1,15 @@
 import { useState } from "react";
 import "./createForm.css";
 import api from "../axiosInstance";
-function AddTaskModal({ onClose, formData, setformData,handleSubmit,message }) {
-
-    const { title, startTime, endTime, taskDate, description } =
-      formData;
-  
+function AddTaskModal({
+  onClose,
+  formData,
+  setformData,
+  handleSubmit,
+  message,
+  btn_label = "ADD",
+}) {
+  const { title, startTime, endTime, taskDate, description } = formData;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -67,7 +71,7 @@ function AddTaskModal({ onClose, formData, setformData,handleSubmit,message }) {
           />
 
           <button type="submit" className="create-btn">
-            Create Task
+            {btn_label}
           </button>
         </form>
       </div>

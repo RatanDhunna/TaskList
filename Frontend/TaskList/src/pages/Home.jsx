@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Input from "../components/Input";
@@ -64,11 +63,9 @@ function Home() {
 
   // Update weekly statistics based on old and new task.
   function updateWeeklyCounts(oldTask, newTask) {
-    const oldInWeek =
-      oldTask && isInSelectedWeek(oldTask.taskDate);
+    const oldInWeek = oldTask && isInSelectedWeek(oldTask.taskDate);
 
-    const newInWeek =
-      newTask && isInSelectedWeek(newTask.taskDate);
+    const newInWeek = newTask && isInSelectedWeek(newTask.taskDate);
 
     const completedDifference =
       (newInWeek && newTask.isComplete ? 1 : 0) -
@@ -162,17 +159,12 @@ function Home() {
 
     const { _id, ...taskUpdate } = formData;
 
-    const oldTask = todayTask.find(
-      (task) => task._id === _id
-    );
+    const oldTask = todayTask.find((task) => task._id === _id);
 
     if (!oldTask) return;
 
     try {
-      const response = await api.patch(
-        `/updateTask/${_id}`,
-        taskUpdate
-      );
+      const response = await api.patch(`/updateTask/${_id}`, taskUpdate);
 
       if (response.data.status) {
         const updatedTask = response.data.data;
@@ -185,9 +177,7 @@ function Home() {
           }
 
           // Replace old task with updated task.
-          return prev.map((task) =>
-            task._id === _id ? updatedTask : task
-          );
+          return prev.map((task) => (task._id === _id ? updatedTask : task));
         });
 
         // Recalculate weekly counter differences.
@@ -205,19 +195,14 @@ function Home() {
 
   // UPDATE TASK STATUS
   async function handleStatusUpdate(id, newStatus) {
-    const currentTask = todayTask.find(
-      (task) => task._id === id
-    );
+    const currentTask = todayTask.find((task) => task._id === id);
 
     if (!currentTask) return;
 
     try {
-      const response = await api.patch(
-        `/updateTask/${id}`,
-        {
-          isComplete: newStatus,
-        }
-      );
+      const response = await api.patch(`/updateTask/${id}`, {
+        isComplete: newStatus,
+      });
 
       if (response.data.status) {
         const updatedTask = {
@@ -226,9 +211,7 @@ function Home() {
         };
 
         setTodayTask((prev) =>
-          prev.map((task) =>
-            task._id === id ? updatedTask : task
-          )
+          prev.map((task) => (task._id === id ? updatedTask : task)),
         );
 
         updateWeeklyCounts(currentTask, updatedTask);
@@ -240,9 +223,7 @@ function Home() {
 
   // DELETE TASK
   async function handleTaskDelete(id) {
-    const currentTask = todayTask.find(
-      (task) => task._id === id
-    );
+    const currentTask = todayTask.find((task) => task._id === id);
 
     if (!currentTask) return;
 
@@ -250,9 +231,7 @@ function Home() {
       const response = await api.delete(`/deletetask/${id}`);
 
       if (response.data.status) {
-        setTodayTask((prev) =>
-          prev.filter((task) => task._id !== id)
-        );
+        setTodayTask((prev) => prev.filter((task) => task._id !== id));
 
         // Remove task from weekly statistics.
         updateWeeklyCounts(currentTask, null);
@@ -352,10 +331,7 @@ function Home() {
         </div>
       </section>
 
-      <section
-        className="dashboard__tasks"
-        aria-labelledby="tasks-today-title"
-      >
+      <section className="dashboard__tasks" aria-labelledby="tasks-today-title">
         <div className="dashboard__section-heading">
           <h2 id="tasks-today-title">Tasks Today</h2>
 
@@ -398,6 +374,7 @@ function Home() {
           setformData={setformData}
           handleSubmit={isEdit ? handleEditTask : handleSubmit}
           message={message}
+          btn_label={isEdit ? "Edit Task" : "Create Task"}
         />
       )}
     </main>
