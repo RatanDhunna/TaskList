@@ -43,6 +43,13 @@ async function startServer() {
   }
 
   try {
+const uri = process.env.MONGODB_URI;
+
+console.log("Mongo URI exists:", Boolean(uri));
+console.log("Mongo URI length:", uri?.length);
+console.log("Mongo URI prefix:", JSON.stringify(uri?.slice(0, 20)));
+console.log("Mongo URI starts correctly:", uri?.startsWith("mongodb+srv://"));
+
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("Successfully connected to MongoDB");
     app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
